@@ -7,5 +7,5 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface StudentRepository extends JpaRepository<Student, Long> {
+public interface StudentRepository extends JpaRepository<@NotNull Student, @NotNull Long> {
 }
