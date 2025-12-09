@@ -24,8 +24,6 @@ public class Student {
     @Setter
     private String className;
 
-    public Student() {
-    }
 
 
 
