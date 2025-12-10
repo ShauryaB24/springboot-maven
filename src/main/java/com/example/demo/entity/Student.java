@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter
+@Setter
 @Entity
 public class Student {
 
@@ -15,13 +16,10 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
 
-    @Setter
+
     private String firstName;
-    @Setter
     private String lastName;
-    @Setter
     private String rollNumber;
-    @Setter
     private String className;
 
 

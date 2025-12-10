@@ -4,7 +4,6 @@ import com.example.demo.entity.Student;
 import com.example.demo.repository.StudentRepository;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,10 +14,12 @@ import java.util.List;
 @Service
 public class StudentService {
 
-    @Autowired
-    private StudentRepository repository;
-
+    private final StudentRepository repository;
     private final DataFormatter dataFormatter = new DataFormatter();
+
+    public StudentService(StudentRepository repository) {
+        this.repository = repository;
+    }
 
     public void saveStudents(MultipartFile file) throws Exception {
         List<Student> students = getStudentsFromExcel(file.getInputStream());
