@@ -1,6 +1,7 @@
 package com.shaurya.rest.webservices.restful_web_services.user;
 
-import com.shaurya.rest.webservices.restful_web_services.Post;
+import com.shaurya.rest.webservices.restful_web_services.post.Post;
+import com.shaurya.rest.webservices.restful_web_services.post.PostNotFoundException;
 import com.shaurya.rest.webservices.restful_web_services.repository.PostRepository;
 import com.shaurya.rest.webservices.restful_web_services.repository.UserRepository;
 import jakarta.validation.Valid;
@@ -97,6 +98,23 @@ public class UserJpaResource {
                 .buildAndExpand(savedPost.getId())
                 .toUri();
         return ResponseEntity.created(location).build();
+    }
+
+    @GetMapping("/jpa/users/{user_id}/posts/{post_id}")
+    public EntityModel<Post> retrievePostForUser(@PathVariable int user_id, @PathVariable int post_id) {
+
+        Optional<User> user = repository.findById(user_id);
+        Optional<Post> post = postRepository.findById(post_id);
+
+        if(user.isEmpty())
+            throw new UserNotFoundException("id: "+ user_id);
+
+        if(post.isEmpty())
+            throw new PostNotFoundException("id: "+ post_id);
+
+        EntityModel<Post> entityModel = EntityModel.of(post.get());
+
+        return entityModel;
     }
 
 

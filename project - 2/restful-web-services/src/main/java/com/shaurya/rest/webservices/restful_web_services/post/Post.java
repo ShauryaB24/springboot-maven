@@ -1,4 +1,4 @@
-package com.shaurya.rest.webservices.restful_web_services;
+package com.shaurya.rest.webservices.restful_web_services.post;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.shaurya.rest.webservices.restful_web_services.user.User;
