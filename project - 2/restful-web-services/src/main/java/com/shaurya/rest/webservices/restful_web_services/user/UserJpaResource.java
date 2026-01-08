@@ -81,6 +81,16 @@ public class UserJpaResource {
         return ResponseEntity.created(location).build();
     }
 
+//    @PostMapping("/jpa/posts")
+//    public ResponseEntity<Object> createPost(@Valid @RequestBody Post post) {
+//        Post savedPost = postRepository.save(post);
+//        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+//                .path("/{id}")
+//                .buildAndExpand(savedPost.getId())
+//                .toUri();
+//        return ResponseEntity.created(location).build();
+//    }
+
     @PostMapping("/jpa/users/{id}/posts")
     public ResponseEntity<Object> createPostsForUser(@PathVariable int id, @Valid @RequestBody Post post) {
 
