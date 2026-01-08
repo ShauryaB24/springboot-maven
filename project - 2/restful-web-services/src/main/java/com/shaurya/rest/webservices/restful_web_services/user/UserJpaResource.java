@@ -1,5 +1,6 @@
 package com.shaurya.rest.webservices.restful_web_services.user;
 
+import com.shaurya.rest.webservices.restful_web_services.Post;
 import com.shaurya.rest.webservices.restful_web_services.repository.UserRepository;
 import jakarta.validation.Valid;
 import org.springframework.hateoas.EntityModel;
@@ -54,6 +55,17 @@ public class UserJpaResource {
     public void deleteUserById(@PathVariable int id) {
 
         repository.deleteById(id);
+    }
+
+    @GetMapping("/jpa/users/{id}/posts")
+    public List<Post> retrievePostsForUser(@PathVariable int id) {
+
+        Optional<User> user = repository.findById(id);
+
+        if(user.isEmpty())
+            throw new UserNotFoundException("id: "+ id);
+
+        return user.get().getPosts();
     }
 
     @PostMapping("/jpa/users")
