@@ -1,6 +1,7 @@
 package com.shaurya.rest.webservices.restful_web_services.user;
 
 import com.shaurya.rest.webservices.restful_web_services.Post;
+import com.shaurya.rest.webservices.restful_web_services.repository.PostRepository;
 import com.shaurya.rest.webservices.restful_web_services.repository.UserRepository;
 import jakarta.validation.Valid;
 import org.springframework.hateoas.EntityModel;
@@ -21,9 +22,12 @@ public class UserJpaResource {
 
     private UserRepository repository;
 
-    public UserJpaResource(UserRepository repository) {
+    private PostRepository postRepository;
+
+    public UserJpaResource(UserRepository repository, PostRepository postRepository) {
 
         this.repository = repository;
+        this.postRepository = postRepository;
     }
 
     @GetMapping("/jpa/users")
@@ -31,8 +35,6 @@ public class UserJpaResource {
 
         return repository.findAll();
     }
-
-    //http://localhost:8080/users
 
     //EntityModel
     //WebMvcLinkBuilder
@@ -74,6 +76,25 @@ public class UserJpaResource {
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(savedUser.getId())
+                .toUri();
+        return ResponseEntity.created(location).build();
+    }
+
+    @PostMapping("/jpa/users/{id}/posts")
+    public ResponseEntity<Object> createPostsForUser(@PathVariable int id, @Valid @RequestBody Post post) {
+
+        Optional<User> user = repository.findById(id);
+
+        if(user.isEmpty())
+            throw new UserNotFoundException("id: "+ id);
+
+        post.setUser(user.get());
+
+        Post savedPost = postRepository.save(post);
+
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(savedPost.getId())
                 .toUri();
         return ResponseEntity.created(location).build();
     }
